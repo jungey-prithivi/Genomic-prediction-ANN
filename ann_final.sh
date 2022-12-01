@@ -15,10 +15,5 @@ done
 
 echo "all done"
 
-#cd Outputs
-#cat *_temp.csv > normal_gwas_gblup_0_b.csv
-#sed -i 1i"phenotype,heritability,gblup_accuracy,gwas_gblup_accuracy" normal_gwas_gblup_0_b.csv
-#rm *_temp.csv
-
-#cd ..
-#awk 'FNR==1 && NR!=1{next;}{print}' *.txt > gwas_ann_accuracy.txt
+cd Outputs
+awk 'FNR==1 && NR!=1{next;}{print}' *.txt > ann_accuracy.txt
