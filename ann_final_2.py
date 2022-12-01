@@ -170,11 +170,6 @@ if model_nn == False:
 
     best_hps=tuner.get_best_hyperparameters(num_trials=1)[0]
 
-    #print(f"""
-              #The hyperparameter search is complete. The optimal number of units in the first densely-connected
-              #layer is {best_hps.get('units_1')} and the optimal learning rate for the optimizer
-              #is {best_hps.get('learning_rate')}.
-              #""")
     lr = best_hps.get('learning_rate')
     model = tuner.hypermodel.build(best_hps)
     history = model.fit(X_train, y_train, epochs=50, validation_data=(X_test, y_test), verbose=0)
@@ -193,7 +188,6 @@ if model_nn == False:
     np.random.seed(seed)
     cvscores = []
     kfold = KFold(n_splits=CV_fold, shuffle=True, random_state=seed)
-    #for i in range(CV_fold):
     for train, test in kfold.split(X, y):
         pearson_cc = cross_validation(best_hps, X.iloc[train], y.iloc[train], X.iloc[test], y.iloc[test])
         cvscores.append(pearson_cc)
@@ -203,7 +197,7 @@ if model_nn == False:
     hypermodel = tuner.hypermodel.build(best_hps)
     # Retrain the model
     hypermodel.fit(X_train, y_train, epochs=best_epoch, validation_data=(X_test, y_test), verbose=0)
-    #hypermodel.save(out_dir+'/'+pheno_name+'_model.h5')
+    hypermodel.save(out_dir+'/'+pheno_name+'_model.h5')
 
     layer_nn = layer_count(hypermodel.layers)
     
